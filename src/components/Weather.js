@@ -15,9 +15,10 @@ function Weather(props){
     const [weather, setWeather] = useState([]);
     const [wind, setWind] = useState([]);
     const [hour, setHour] = useState([]);
+    const [daily, setDaily] = useState([]);
     const [lat, setLat] = useState('58.0174')
     const [lon, setLon] = useState('56.2855')
-    const [count, setCount] = useState(0)
+
     const apiKey = '2f35997f952b7aa5115b5f3b3f948196'
 //    var c = `${props.gorod}`
 
@@ -27,7 +28,6 @@ function Weather(props){
 
      useEffect(() => {
     axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${props.value}&appid=${apiKey}&units=metric&lang=ru`)
-//    axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=48.8534&lon=2.3488&units=metric&lang=en&APPID=${apiKey}`)
     .then(res =>{console.log(res);
     setCity(res.data);
     setWeather(res.data.main);
@@ -35,24 +35,33 @@ function Weather(props){
     setLat(res.data.coord.lat);
     setLon(res.data.coord.lon);
     axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&lang=en&APPID=${apiKey}`)
-    .then(res =>{console.log(res)
-    setHour(res.data.hourly)
+    .then(res =>{console.log(res);
+    setHour(res.data.hourly);
+    setDaily(res.data.daily);
     });
     });
+
 
 
     }, [props.value]);
     return (
 
         <table>
+                <td>
                 <p>Город: {city.name}</p>
                 <p>{lat}</p>
                 <p>{lon}</p>
                 <p>На сегодняшний день</p>
                 <p>Температура {weather.temp}<sup>o</sup>C</p>
                 <p>Скорость ветра {wind.speed} М/С</p>
-                <p>На ближайше 2-е суток</p>
-                 {hour.map((x, i) =><p>{i+1} час, {x.temp} <sup>o</sup>C</p>)}
+                </td>
+                <p><td>На ближайше 2-е суток по часам</td></p>
+                {hour.map((x, i) =><p><td>{i+1} час, {x.temp} <sup>o</sup>C</td></p>)}
+                 <td><p>На ближайшие 5 дней</p></td>
+                {daily.map(y => <p><td>{y.dt}</td></p>)}
+
+
+                 <p></p>
         </table>
     );
 
