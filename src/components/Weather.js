@@ -37,7 +37,11 @@ function Weather(props){
     axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&lang=en&APPID=${apiKey}`)
     .then(res =>{console.log(res);
     setHour(res.data.hourly);
-    setDaily(res.data.daily);
+    setDaily(res.data.daily.map(y => <p><td> {new Date(y.dt * 1000).toLocaleDateString()} </td></p>));
+
+
+
+
     });
     });
 
@@ -58,10 +62,12 @@ function Weather(props){
                 <p><td>На ближайше 2-е суток по часам</td></p>
                 {hour.map((x, i) =><p><td>{i+1} час, {x.temp} <sup>o</sup>C</td></p>)}
                  <td><p>На ближайшие 5 дней</p></td>
-                {daily.map(y => <p><td>{y.dt}</td></p>)}
+                 <p><td>{daily}</td></p>
 
 
-                 <p></p>
+
+
+
         </table>
     );
 
