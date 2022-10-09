@@ -11,10 +11,8 @@ function Header(props) {
     };
 
     return(
-        <header>This is header
-            <button className={"some-button"} onClick={handleClick}>
-            {props.buttonName}, clicked: {count} times
-            </button>
+        <header>
+               Погода
         </header>
     )
 }
