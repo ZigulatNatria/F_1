@@ -15,6 +15,7 @@ function Weather(props){
     const [weather, setWeather] = useState([]);
     const [wind, setWind] = useState([]);
     const [hour, setHour] = useState([]);
+    const [hour_dt, setHour_dt] = useState([]);
     const [daily, setDaily] = useState([]);
     const [daily_weather, setDaily_weather] = useState([]);
     const [lat, setLat] = useState('58.0174')
@@ -38,6 +39,7 @@ function Weather(props){
     axios.get(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&lang=en&APPID=${apiKey}`)
     .then(res =>{console.log(res);
     setHour(res.data.hourly);
+    setHour_dt(res.data.hourly.map(time => <p>{new Date(time.dt * 1000).toLocaleTimeString()}</p>));
     setDaily(res.data.daily.map(y => <p>{new Date(y.dt * 1000).toLocaleDateString()}</p>));
     setDaily_weather(res.data.daily);
 
@@ -49,7 +51,7 @@ function Weather(props){
     }, [props.value]);
     return (
 
-        <table>
+        <table><center>
             <div class='td1'>
                 <td >
                 <p>Город: {city.name}</p>
@@ -59,18 +61,22 @@ function Weather(props){
                 </td>
             </div>
                 <td>
-                <p>На ближайше 2-е суток по часам</p>
-                {hour.map((x, i) =><p>{i+1} час, {x.temp} <sup>o</sup>C</p>)}
+                <p>На 2-е суток</p>
+                <p>{hour_dt}</p>
                 </td>
                  <td>
-                 <p>Погода на неделю</p>
+                 <p>t <sup>o</sup>C</p>
+                {hour.map(x  =><p> {x.temp}</p>)}
+                </td>
+                 <td>
+                 <p>____Погода на неделю</p>
                  {daily}
                  </td>
                  <td>
                  <p>t <sup>o</sup>C</p>
-                 {daily_weather.map(z =>  <p>{z.temp.day}</p>)}
+                 {daily_weather.map(z  =>  <p>{z.temp.day} </p>)}
                  </td>
-        </table>
+        </center></table>
     );
 
 }

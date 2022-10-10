@@ -12,7 +12,7 @@ function Header(props) {
 
     return(
         <header>
-               Погода
+               Погода в России
         </header>
     )
 }
